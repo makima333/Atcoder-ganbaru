@@ -17,10 +17,10 @@ from numpy import linalg as LA
 import math
 
 
-def tangent_angle(u: np.ndarray, v: np.ndarray):
+def tangent_angle(u: np.ndarray, v: np.ndarray) -> np.ndarray:
     return  np.cross(u, v)
 
-def call_tangent_angle(k, t, n):
+def call_tangent_angle(k, t, n) -> np.ndarray:
     kt = t - k
     kn = n - k
     return tangent_angle(kt, kn)
