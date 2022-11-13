@@ -3,9 +3,8 @@ from operator import mod
 import sys
 
 _INPUT = """\
-9 7
-3 0 2 5 5 3 0 6 3
-
+8 6
+0 1 2 1 2 2 2 5
 
 """
 sys.stdin = io.StringIO(_INPUT)
@@ -17,34 +16,28 @@ import collections
 
 n, m = map(int, input().split())
 a_lis = list(map(int, input().split()))
+a_lis.sort()
 total = sum(a_lis)
-a_set = set(a_lis)
+a_set = list(set(a_lis))
+nums_sum = collections.Counter(a_lis)
+# sum_max = 0
 
-nums_sum = {}
-for i in a_set:
-    nums_sum[i] = i * a_lis.count(i)
-
-print(collections.Counter(a_lis).items()[1])
-
-
-histroy = set([])
+tmp_sum = 0
+i = 0
 ans = []
-while len(a_set):
-    # for i in a_set:
-    sum = 0
-    i = list(a_set)[0]
+while i != len(a_set):
+    curr_num = a_set[i]
+    tmp_sum += nums_sum[curr_num] * curr_num
 
-    curent_i = i
-    while True:
-        histroy.add(curent_i)
-        sum += nums_sum[curent_i]
-        if (curent_i + 1) % m in a_set:
-            curent_i = (curent_i + 1) % m
-        else:
-            break
+    if i == len(a_set) - 1 or curr_num + 1 != a_set[i + 1]:
+        # print(tmp_sum)
+        ans.append(tmp_sum)
+        tmp_sum = 0
 
-    a_set = a_set - histroy
-    ans.append(sum)
+    i += 1
 
+if len(ans) > 1:
+    if a_set[0] == 0 and a_set[-1] + 1 == m:
+        ans[0] += ans[-1]
 
 print(total - max(ans))
