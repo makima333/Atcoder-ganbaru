@@ -8,19 +8,18 @@ _INPUT = """\
 """
 sys.stdin = io.StringIO(_INPUT)
 
-#---------------------------------
+# ---------------------------------
 A, B, C, D, E = map(int, input().split())
 
 nums = set([A, B, C, D, E])
 if len(nums) != 2:
-    print('No')
+    print("No")
     exit()
 
 for n in nums:
-    cnt = len([0 for m in [A, B, C, D, E] if m == n]) 
+    cnt = len([0 for m in [A, B, C, D, E] if m == n])
     if cnt == 2 or cnt == 3:
-        print('Yes')
+        print("Yes")
         exit()
 
-print('No')
-
+print("No")
