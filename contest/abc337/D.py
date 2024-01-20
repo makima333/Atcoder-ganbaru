@@ -7,17 +7,11 @@ import sys
 
 
 _INPUT = """\
-10 12 6
-......xo.o..
-x...x.....o.
-x...........
-..o...x.....
-.....oo.....
-o.........x.
-ox.oox.xx..x
-....o...oox.
-..o.....x.x.
-...o........
+3 3 3
+x..
+..x
+.x.
+
 
 
 """
@@ -27,47 +21,38 @@ sys.stdin = io.StringIO(_INPUT)
 import numpy as np
 
 H, W, K = map(int, input().split())
-grid = np.zeros((H, W), dtype=int)
-grid_mirror = np.zeros((H, W), dtype=int)
+grid = np.array([list(input()) for _ in range(H)])
+
+ans = 2 * (10**5) + 1
+x = [0 for _ in range(W + 1)]
+d = [0 for _ in range(W + 1)]
+
 for h in range(H):
-    S = input()
-    for w in range(W):
-        if S[w] == "o":
-            grid[h, w] = 1
-            grid_mirror[h, w] = 1
-        elif S[w] == "x":
-            grid[h, w] = 0
-            grid_mirror[h, w] = 0
-        elif S[w] == ".":
-            grid[h, w] = 0
-            grid_mirror[h, w] = 1
+    for w in range(1, W + 1):
+        x[w], d[w] = x[w - 1], d[w - 1]
+        if grid[h, w - 1] == ".":
+            d[w] += 1
+        elif grid[h, w - 1] == "x":
+            x[w] += 1
+    for w in range(1, W - K + 2):
+        if x[w + K - 1] - x[w - 1] == 0:
+            ans = min(ans, d[w + K - 1] - d[w - 1])
 
-ans_index = []
-for h in range(H):
-    for w in range(W):
-        if grid_mirror[h, w] == 0:
-            continue
-        if w + K <= W:
-            tmp = grid_mirror[h, w : K + w]
-            if sum(tmp) == K:
-                ans_index.append([h, w, "R"])
-        if h + K <= H:
-            tmp = grid_mirror[h : K + h, w]
-            if sum(tmp) == K:
-                ans_index.append([h, w, "D"])
+x = [0 for _ in range(H + 1)]
+d = [0 for _ in range(H + 1)]
+for w in range(W):
+    for h in range(1, H + 1):
+        x[h], d[h] = x[h - 1], d[h - 1]
+        if grid[h - 1, w] == ".":
+            d[h] += 1
+        elif grid[h - 1, w] == "x":
+            x[h] += 1
 
+    for h in range(1, H - K + 2):
+        if x[h + K - 1] - x[h - 1] == 0:
+            ans = min(ans, d[h + K - 1] - d[h - 1])
 
-diff = grid_mirror - grid
-ans = (2 * (10**5)) + 1
-for a in ans_index:
-    h, w, direction = a
-    if direction == "R":
-        ans = min(sum(diff[h, w : K + w]), ans)
-    elif direction == "D":
-        ans = min(sum(diff[h : K + h, w]), ans)
-
-
-if ans == (2 * (10**5)) + 1:
+if ans == 2 * (10**5) + 1:
     print(-1)
 else:
     print(ans)
