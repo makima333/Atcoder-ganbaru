@@ -7,16 +7,15 @@ import sys
 
 
 _INPUT = """\
-4 11
-3 1 4 5
+3 7
+2 2 3
 
 """
 sys.stdin = io.StringIO(_INPUT)
 # ---------------------------------
-# 2次元DP、部分和問題
+# 2次元DP、部分和問題、DP復元
 N, S = map(int, input().split())
 A = [0] + list(map(int, input().split()))
-
 dp = [[False] * (S + 1) for _ in range(N + 1)]
 dp[0][0] = True
 
@@ -34,7 +33,21 @@ for i in range(1, N + 1):
             else:
                 dp[i][j] = False
 
-if dp[N][S]:
-    print("Yes")
-else:
-    print("No")
+if not dp[N][S]:
+    print(-1)
+    exit()
+
+
+# DP復元
+ans = []
+i = N
+s = S
+
+while i > 0:
+    if dp[i][s] and not dp[i - 1][s]:
+        ans.append(i)
+        s -= A[i]
+    i -= 1
+
+print(len(ans))
+print(*reversed(ans))
