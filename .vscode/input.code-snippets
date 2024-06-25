@@ -1,0 +1,118 @@
+{
+	// Place your Atcoder-ganbaru ワークスペース snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"init": {
+		"prefix": "init",
+		"body": [
+			"import io",
+			"from operator import mod",
+			"import sys",
+			"# 再帰用",
+			"# sys.setrecursionlimit(10**9)",
+			"",
+			"",
+			"_INPUT = \"\"\"\\",
+			"",
+			"\"\"\"",
+			"sys.stdin = io.StringIO(_INPUT)",
+			"# ---------------------------------",
+		],
+	},
+	"map_int": {
+		"prefix": "map",
+		"body": [
+			"map(int, input().split())"
+		],
+		"description": "map_int"
+	},
+	"union_find": {
+		"prefix": "union",
+		"body": [
+			"class UnionFind:",
+			"    def __init__(self, n: int):",
+			"        self.parent = [i for i in range(n)]",
+			"        self.rank = [0] * n",
+			"        self.size = [1] * n",
+			"    ",
+			"    def find(self, x: int) -> int:",
+			"        if self.parent[x] == x:",
+			"            return x",
+			"        else:",
+			"            self.parent[x] = self.find(self.parent[x])",
+			"            return self.parent[x]",
+			"",
+			"    def unite(self, x: int, y: int) -> bool:",
+			"        x = self.find(x)",
+			"        y = self.find(y)",
+			"",
+			"        if x == y:",
+			"            return False",
+			"",
+			"        if self.rank[x] < self.rank[y]:",
+			"            x, y = y, x",
+			"",
+			"        self.parent[y] = x",
+			"        self.size[x] += self.size[y]",
+			"",
+			"        if self.rank[x] == self.rank[y]:",
+			"            self.rank[x] += 1",
+			"",
+			"        return True",
+			"",
+			"    def same(self, x: int, y: int) -> bool:",
+			"        return self.find(x) == self.find(y)",
+			"",
+			"    def get_size(self, x: int) -> int:",
+			"        return self.size[self.find(x)]",
+			""
+		],
+		"description": "union-find"
+	},
+	"print_no": {
+		"prefix": "printno",
+		"body":[
+			"print('No')"
+		]
+	},
+	"print_yes": {
+		"prefix": "printyes",
+		"body":[
+			"print('Yes')"
+		]
+	},
+	"bin_search": {
+		"prefix": "binsearch",
+		"body": [
+			"left = $1",
+			"right = $2",
+			"",
+			"def logic(mid):",
+			"\treturn 0",
+			"",
+			"while left < right:",
+			"\tmid = (left + right) // 2",
+			"\tcal_res = logic(mid)",
+			"\tif cal_res < $3:",
+			"\t\tleft = mid + 1",
+			"\telse:",
+			"\t\tright = mid",
+			"",
+			"print(left)"
+		],
+		"description": "Binary Search"
+	}
+}
