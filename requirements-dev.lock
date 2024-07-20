@@ -11,3 +11,4 @@
 -e file:.
 numpy==2.0.0
     # via atcoder-ganbaru
+ruff==0.5.1
